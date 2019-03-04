@@ -1,3 +1,4 @@
+const config = require('./config.json');
 const Discord = require ('discord.js');
 const fs = require('fs');
 
@@ -10,4 +11,4 @@ bot.on('ready', () =>
 });
 
 
-bot.login('NoShareGithub');
+bot.login(config.token);
