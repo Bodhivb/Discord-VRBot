@@ -28,7 +28,7 @@ bot.on('message', async message =>
     let sender = message.author;
     let prefix = config.prefix;
 
-    if (!message.content.startsWith(prefix) || (sender.id !== '151423248020537345') return;
+    if (!message.content.startsWith(prefix) || sender.id !== '151423248020537345') return;
 
     let messageArray = message.content.split(" ");
     let cmd = messageArray[0].toLowerCase();
