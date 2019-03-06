@@ -5,21 +5,21 @@ const fs = require('fs');
 const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();
 
+
 fs.readdir('./commands/', (err, files) =>
 {
     if (err) console.log(err);
 
-     var jsfiles = files.filter(f => f.split('.').pop() === 'js');
-     if (jsfiles.lengte <= 0) { return console.log("Couldn't find commands");}
+    var jsfiles = files.filter(f => f.split('.').pop() === 'js');
+    if (jsfiles.lengte <= 0) { return console.log("Couldn't find commands");}
 
-     jsfiles.forEach((f, i) =>
-     {
-       delete require.cache[require.resolve(`./commands/${f}`)];   //for reload
-       let cmds = require(`./commands/${f}`);
-       bot.commands.set(cmds.config.name, cmds);
-       console.log(`${f} loaded`);
-     });
-
+    jsfiles.forEach((f, i) =>
+    {
+      delete require.cache[require.resolve(`./commands/${f}`)];   //for reload
+      let cmds = require(`./commands/${f}`);
+      bot.commands.set(cmds.config.name, cmds);
+      console.log(`${f} loaded`);
+    });
 });
 
 
@@ -28,7 +28,7 @@ bot.on('message', async message =>
     let sender = message.author;
     let prefix = config.prefix;
 
-    if (!message.content.startsWith(prefix) || sender.id !== '151423248020537345') return;
+    if (!message.content.startsWith(prefix) || sender.id !== config.ownerID) return;
 
     let messageArray = message.content.split(" ");
     let cmd = messageArray[0].toLowerCase();
