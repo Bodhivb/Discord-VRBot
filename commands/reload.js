@@ -1,9 +1,9 @@
 const config = require('../config.json');
-const Discord = require("discord.js");
 const fs = require('fs');
 
 module.exports.config = {
-  name: "reload"
+  name: "reload",
+  descriptiion: "Reload the bot"
 }
 
 module.exports.run = async (bot, message, args) =>
@@ -23,7 +23,8 @@ module.exports.run = async (bot, message, args) =>
         {
           delete require.cache[require.resolve(`./${f}`)];
           var cmds = require(`./${f}`);
-          bot.commands.set(cmds.config.command, cmds);
+          bot.commands.delete(cmds.config.name);
+          bot.commands.set(cmds.config.name, cmds);
         });
         console.log("All of the commands have been reloaded");
         message.channel.send("All of the commands have been reloaded");
@@ -36,9 +37,9 @@ module.exports.run = async (bot, message, args) =>
       try
       {
           delete require.cache[require.resolve(`./${commandName}.js`)];
-          bot.commands.delete(commandName);
           const cmd = require(`./${commandName}.js`);
-          bot.commands.set(commandName, cmd);
+          bot.commands.delete(cmd.config.name);
+          bot.commands.set(cmd.config.name, cmd);
       }
       catch(e)
       {

@@ -1,0 +1,7 @@
+```css
+[Available commands]
+help    = Get a list of available commands
+meme    = It is time to go meme
+search  = Create a google search link
+```
+Invite url: https://discordapp.com/oauth2/authorize?client_id=HERE_YOUR_ID&permissions=8&scope=bot
