@@ -28,7 +28,7 @@ module.exports.run = async (bot, message, args) =>
             SEND_MESSAGES: false,
             ADD_REACTIONS: false,
             SEND_TIS_MESSAGE: false,
-            ATTACK_FILES: false,
+            ATTACH_FILES: false,
             SPEAK: false
           });
         });
