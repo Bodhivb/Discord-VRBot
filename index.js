@@ -1,25 +1,45 @@
 const config = require('./config.json');
 const Discord = require ('discord.js');
 const fs = require('fs');
+const path = require('path');
 
 const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();
+bot.channels = new Discord.Collection();
 
-
+//Loading commands
 fs.readdir('./commands/', (err, files) =>
 {
-    if (err) console.log(err);
+    if (err) return console.log(err);
 
     var jsfiles = files.filter(f => f.split('.').pop() === 'js');
-    if (jsfiles.lengte <= 0) { return console.log("Couldn't find commands");}
-
+    if (jsfiles.length <= 0) { return console.log("Couldn't find commands");}
+    console.log("===| " + jsfiles.length + " Commands found |===");
     jsfiles.forEach((f, i) =>
     {
-      delete require.cache[require.resolve(`./commands/${f}`)];   //for reload
       let cmds = require(`./commands/${f}`);
       bot.commands.set(cmds.config.name, cmds);
       console.log(`${f} loaded`);
     });
+    console.log("");
+});
+
+//Loading guilds config
+fs.readdir('./storage/guild/', (err, files) => {
+  if (err) return console.log(err);
+    var directory = files.filter(f => fs.statSync(path.join('./storage/guild/', f)).isDirectory());
+    if (directory.length <= 0) { return console.log("Couldn't find guild");}
+
+    console.log("===| " + directory.length + " Guilds found |===");
+    directory.forEach((dir, i) => {
+        var channelConfig = path.join('./storage/guild/', dir, '/config.json');
+        if (fs.existsSync(channelConfig))
+        {
+            bot.channels.set(dir, channelConfig);
+        }
+    });
+    console.log(bot.channels.size + " Guilds loaded");
+    console.log("");
 });
 
 
